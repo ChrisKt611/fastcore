@@ -6,8 +6,8 @@ from django import forms
 from operation.models.usermodels import User
 #表单
 class UserForm(forms.Form): 
-    username = forms.CharField(label='用户名',max_length=100)
-    password = forms.CharField(label='密码',widget=forms.PasswordInput())
+    username = forms.CharField(label='用户名:', max_length=100)
+    password = forms.CharField(label='密__码:', widget=forms.PasswordInput())
 
 
 #注册
@@ -52,12 +52,18 @@ def login(req):
 
 #登陆成功
 def index(req):
-    username = req.COOKIES.get('username','')
-    return render_to_response('index.html' ,{'username':username})
-
+	username = req.COOKIES.get('username','')
+	li = {'userhome':'用户首页', 'hosts':'主机管理', 'monitors':'监控管理'}
+	list = ['userhome', 'hosts', 'monitors']
+	if False == req.COOKIES.has_key('username'):
+		return HttpResponseRedirect('/login/')
+	else:
+		 return render_to_response('index.html' ,{'username':username, 'li':li, 'list':list,})
 #退出
 def logout(req):
-    response = HttpResponse('logout !!')
+    #response = HttpResponse('退出成功!!')
+    response = HttpResponseRedirect('/login/')
     #清理cookie里保存username
     response.delete_cookie('username')
-    return HttpResponseRedirect('/login/')
+    response.write("<script>window.location='/login/'</script>")
+    return response
