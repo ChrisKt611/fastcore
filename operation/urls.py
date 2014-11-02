@@ -9,6 +9,6 @@ urlpatterns = patterns('',
     url(r'^index/$', auth.index, name='index'),
     url(r'^regist/$', auth.regist, name='regist'),
     url(r'^logout/$', auth.logout, name='logout'),   
-    url(r'^topbar/$', inframe.topbar, name='topbar'),   
+    url(r'^index/[a-z A-Z]{2,15}/$', inframe.targeturl, name='targeturl'),
     #url(r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root':settings.STATIC_PATH}),
 )
